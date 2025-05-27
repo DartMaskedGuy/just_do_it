@@ -35,7 +35,7 @@ class CustomAppBar extends StatelessWidget {
             backgroundColor: Colors.red,
             smallSize: 10,
             child: SvgPicture.asset(
-              AppIcons.notification,
+              AppIcons.icNotification,
               width: 24,
               height: 24,
             ),

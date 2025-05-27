@@ -14,7 +14,7 @@ class CustomBackButton extends StatelessWidget {
       child: IconButton.outlined(
         onPressed: () => Navigator.pop(context),
         style: IconButton.styleFrom(side: BorderSide(color: AppColors.grey)),
-        icon: SvgPicture.asset(AppIcons.chevronLeft),
+        icon: SvgPicture.asset(AppIcons.icChevronLeft),
       ),
     );
   }

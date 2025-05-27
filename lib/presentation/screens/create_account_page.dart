@@ -1,5 +1,6 @@
 import 'package:do_it/presentation/components/custom_elevated_button.dart';
 import 'package:do_it/presentation/components/custom_back_button.dart';
+import 'package:do_it/presentation/components/custom_phone_text_field.dart';
 import 'package:do_it/presentation/components/custom_text_field.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
@@ -62,9 +63,11 @@ class CreateAccountPage extends StatelessWidget {
                 suffixIcon: Icon(Icons.visibility, color: Colors.black),
               ),
               const Gap(24),
+              const CustomPhoneTextField(),
+              const Gap(24),
               CustomTextField(
                 hintText: 'Password',
-                suffixIcon: SvgPicture.asset(AppIcons.visible),
+                suffixIcon: SvgPicture.asset(AppIcons.icVisible),
               ),
               const Gap(8),
               Text(

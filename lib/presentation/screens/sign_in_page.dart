@@ -94,7 +94,7 @@ class SignInPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      icon: SvgPicture.asset(AppIcons.fingerPrint),
+                      icon: SvgPicture.asset(AppIcons.icFingerPrint),
                     ),
                   ),
                 ],

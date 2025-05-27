@@ -1,12 +1,14 @@
 import 'package:do_it/presentation/components/app_logo.dart';
 import 'package:do_it/presentation/components/custom_elevated_button.dart';
+import 'package:do_it/presentation/components/onboarding_icons.dart';
 import 'package:do_it/utils/app_colors.dart';
+import 'package:do_it/utils/app_icons.dart';
 import 'package:do_it/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+class OnboardingPage extends StatelessWidget {
+  const OnboardingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,20 @@ class SplashScreen extends StatelessWidget {
             children: [
               const Gap(50),
               const AppLogo(),
-              Spacer(),
+              const Spacer(),
+              const OnboardingIcons(svg: AppIcons.icCheckmark),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    OnboardingIcons(svg: AppIcons.icTaskMenu),
+                    OnboardingIcons(svg: AppIcons.icCalenderFill),
+                  ],
+                ),
+              ),
+              Image.asset(AppIcons.onboardingImage),
+              const Gap(61),
               RichText(
                 text: TextSpan(
                   text: 'Just ',
@@ -67,6 +82,7 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              const Spacer(),
             ],
           ),
         ),
