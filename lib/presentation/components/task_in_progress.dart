@@ -1,5 +1,6 @@
 import 'package:do_it/presentation/components/task_items.dart';
 import 'package:do_it/utils/app_colors.dart';
+import 'package:do_it/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -29,7 +30,11 @@ class TaskInProgress extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed:
+                          () => Navigator.pushNamed(
+                            context,
+                            AppRoutes.addTaskPage,
+                          ),
                       child: Text(
                         'See all',
                         style: TextStyle(

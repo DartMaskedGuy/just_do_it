@@ -9,42 +9,30 @@ import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:intl/intl.dart';
 
-class AddTaskForm extends StatefulWidget {
-  const AddTaskForm({super.key});
+class EditTaskPage extends StatefulWidget {
+  const EditTaskPage({super.key});
 
   @override
-  State<AddTaskForm> createState() => _AddTaskFormState();
+  State<EditTaskPage> createState() => _EditTaskPageState();
 }
 
-class _AddTaskFormState extends State<AddTaskForm> {
-  DateTime? selectedDate;
-
-  // Function to select date
-  Future<void> _selectDate(BuildContext context) async {
-    // Date picker
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
+class _EditTaskPageState extends State<EditTaskPage> {
+  // Progress Percentage
+  final List<String> progress = [
+    '10%',
+    '20%',
+    '30%',
+    '40%',
+    '50%',
+    '60%',
+    '70%',
+    '80%',
+    '90%',
+    '100%',
+  ];
   @override
   Widget build(BuildContext context) {
-    // Format the selected date
-    final String dateText =
-        selectedDate != null
-            ? DateFormat('d-M-yyyy').format(selectedDate!)
-            : '';
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -52,10 +40,75 @@ class _AddTaskFormState extends State<AddTaskForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomBackButton(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const CustomBackButton(),
+                  PopupMenuButton<String>(
+                    color: AppColors.white,
+                    constraints: const BoxConstraints(minWidth: 225),
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    icon: SvgPicture.asset(AppIcons.icTaskEdit),
+                    itemBuilder: (context) {
+                      return [
+                        PopupMenuItem<String>(
+                          enabled: false,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Text(
+                                  'Progress %',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppColors.greyText,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () => Navigator.pop(context),
+                                child: SvgPicture.asset(AppIcons.icTaskEdit),
+                              ),
+                            ],
+                          ),
+                        ),
+                        ...progress.map(
+                          (String value) => PopupMenuItem<String>(
+                            value: value,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Gap(18),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: AppColors.greyText,
+                                    ),
+                                  ),
+                                ),
+                                const Gap(18),
+                                if (value != progress.last)
+                                  const Divider(height: 1),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ];
+                    },
+                    onSelected: (String value) {},
+                  ),
+                ],
+              ),
               const Gap(22),
               Text(
-                'Add task',
+                'Edit task',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 24,
@@ -67,7 +120,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
                 'Task Name',
                 style: TextStyle(fontSize: 12, color: AppColors.lightGreyText),
               ),
-              TransparentTextField(),
+              TransparentTextField(enabled: false, text: 'Liberty Pay'),
               const Gap(46),
               Row(
                 children: [
@@ -82,25 +135,15 @@ class _AddTaskFormState extends State<AddTaskForm> {
                             color: AppColors.lightGreyText,
                           ),
                         ),
-                        Gap(5),
-                        GestureDetector(
-                          onTap: () => _selectDate(context),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(AppIcons.icCalender, width: 20),
-                              const Gap(8),
-                              Text(
-                                dateText,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.lightGreyText,
-                                ),
-                              ),
-                            ],
+                        TransparentTextField(
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: 0,
+                            ),
+                            child: SvgPicture.asset(AppIcons.icCalender),
                           ),
                         ),
-                        const Divider(),
                       ],
                     ),
                   ),
@@ -116,25 +159,15 @@ class _AddTaskFormState extends State<AddTaskForm> {
                             color: AppColors.lightGreyText,
                           ),
                         ),
-                        Gap(5),
-                        GestureDetector(
-                          onTap: () => _selectDate(context),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(AppIcons.icCalender, width: 20),
-                              const Gap(8),
-                              Text(
-                                dateText,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.lightGreyText,
-                                ),
-                              ),
-                            ],
+                        TransparentTextField(
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: 0,
+                            ),
+                            child: SvgPicture.asset(AppIcons.icCalender),
                           ),
                         ),
-                        const Divider(),
                       ],
                     ),
                   ),
@@ -228,12 +261,16 @@ class _AddTaskFormState extends State<AddTaskForm> {
               ),
               const Gap(7),
               // Description Text Field
-              const ExpandedTextField(),
+              const ExpandedTextField(
+                enabled: false,
+                text:
+                    'Lorem ipsum dolor sit amet, conse jose  adipiscing elit. Vestibulum semper  llmauris as lacus, turpis  Lorem ipsum dolor sit amet, conse ',
+              ),
               const Spacer(),
               // Add Task Button
               CustomElevatedButton(
                 width: double.infinity,
-                label: 'Add task',
+                label: 'Save',
                 onPressed:
                     () => Navigator.push(
                       context,

@@ -1,19 +1,29 @@
+import 'package:do_it/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ExpandedTextField extends StatelessWidget {
-  const ExpandedTextField({super.key});
+  final String? text;
+  final bool? enabled;
+  const ExpandedTextField({super.key, this.text, this.enabled});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 91,
       child: TextFormField(
+        enabled: enabled,
+        initialValue: text,
+        style: const TextStyle(
+          fontSize: 12,
+          color: AppColors.greyText,
+          fontWeight: FontWeight.w400,
+        ),
         maxLines: null,
         expands: true,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 15,
+            horizontal: 10,
+            vertical: 10,
           ),
           filled: true,
           fillColor: Colors.transparent,

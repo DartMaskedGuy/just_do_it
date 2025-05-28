@@ -16,6 +16,20 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
 
+  final List<String> labels = ['Home', 'Project', 'Profile'];
+
+  final List<String> iconOutlined = [
+    AppIcons.icHome,
+    AppIcons.icCheckmark,
+    AppIcons.icUser,
+  ];
+
+  final List<String> iconFilled = [
+    AppIcons.icHomeFill,
+    AppIcons.icCheckmarkFill,
+    AppIcons.icUser,
+  ];
+
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -25,28 +39,34 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.only(bottom: 35),
-      //   child: SizedBox(
-      //     width: 70,
-      //     height: 70,
-      //     child: FloatingActionButton(
-      //       elevation: 0,
-      //       onPressed:
-      //           () => Navigator.pushNamed(context, AppRoutes.createProject),
-      //       heroTag: 'createProject',
-      //       tooltip: 'Create Project',
-      //       shape: CircleBorder(
-      //         side: BorderSide(color: AppColors.white, width: 7),
-      //       ),
-      //       backgroundColor: AppColors.primary,
-      //       foregroundColor: AppColors.white,
-      //       splashColor: Colors.transparent,
-      //       child: const Icon(Icons.add),
-      //     ),
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton:
+          _currentIndex == 0
+              ? Padding(
+                padding: const EdgeInsets.only(bottom: 35),
+                child: SizedBox(
+                  width: 70,
+                  height: 70,
+                  child: FloatingActionButton(
+                    elevation: 0,
+                    onPressed:
+                        () => Navigator.pushNamed(
+                          context,
+                          AppRoutes.createProject,
+                        ),
+                    heroTag: 'createProject',
+                    tooltip: 'Create Project',
+                    shape: CircleBorder(
+                      side: BorderSide(color: AppColors.white, width: 7),
+                    ),
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.white,
+                    splashColor: Colors.transparent,
+                    child: const Icon(Icons.add),
+                  ),
+                ),
+              )
+              : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
@@ -58,20 +78,15 @@ class _MainPageState extends State<MainPage> {
         unselectedFontSize: 12,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(AppIcons.icHome),
-            label: 'check',
+        items: List.generate(
+          labels.length,
+          (index) => BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              _currentIndex == index ? iconFilled[index] : iconOutlined[index],
+            ),
+            label: labels[index],
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(AppIcons.icCheckmark),
-            label: 'check',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(AppIcons.icUser),
-            label: 'user',
-          ),
-        ],
+        ),
       ),
       body: pages[_currentIndex],
     );

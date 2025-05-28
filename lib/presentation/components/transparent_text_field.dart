@@ -4,11 +4,26 @@ import 'package:flutter/material.dart';
 class TransparentTextField extends StatelessWidget {
   final String? label;
   final Widget? prefixIcon;
-  const TransparentTextField({super.key, this.prefixIcon, this.label});
+  final String? text;
+  final bool? enabled;
+  const TransparentTextField({
+    super.key,
+    this.prefixIcon,
+    this.label,
+    this.text,
+    this.enabled,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
+      initialValue: text,
+      style: const TextStyle(
+        fontSize: 14,
+        color: AppColors.greyText,
+        fontWeight: FontWeight.bold,
+      ),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 0),
         labelText: label,

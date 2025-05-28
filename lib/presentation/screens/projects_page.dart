@@ -4,7 +4,6 @@ import 'package:do_it/presentation/screens/add_task_form.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
 class ProjectsPage extends StatelessWidget {
@@ -73,13 +72,9 @@ class ProjectsPage extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: SvgPicture.asset(
-                      AppIcons.libertyLogo,
-                      fit: BoxFit.cover,
-                    ),
+                    child: Image.asset(AppIcons.liberty, fit: BoxFit.cover),
                   ),
+                  const Gap(10),
                   Text(
                     'Liberty Pay',
                     style: TextStyle(

@@ -70,7 +70,7 @@ class CreateAccountPage extends StatelessWidget {
                 'Password must be atleast 8 characters',
                 style: TextStyle(color: AppColors.secondaryText, fontSize: 12),
               ),
-              const Spacer(),
+              const Gap(68),
               CustomElevatedButton(
                 width: double.infinity,
                 label: 'Create account',

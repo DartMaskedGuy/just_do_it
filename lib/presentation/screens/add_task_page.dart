@@ -1,4 +1,5 @@
 import 'package:do_it/presentation/components/custom_back_button.dart';
+import 'package:do_it/presentation/screens/edit_task_page.dart';
 import 'package:do_it/presentation/widgets/circular_progress.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
@@ -19,7 +20,25 @@ class AddTaskPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomBackButton(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const CustomBackButton(),
+                  IconButton(
+                    onPressed:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EditTaskPage(),
+                          ),
+                        ),
+                    style: IconButton.styleFrom(
+                      backgroundColor: AppColors.white,
+                    ),
+                    icon: Icon(Icons.edit, color: AppColors.greyText),
+                  ),
+                ],
+              ),
               const Gap(12),
               Text(
                 'Add task',

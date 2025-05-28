@@ -43,7 +43,7 @@ class DashboardOverview extends StatelessWidget {
                   iconBgColor: const Color(0xFF217AC0),
                   title: 'Tasks',
                   count: '14',
-                  svg: AppIcons.icCheckmark,
+                  svg: AppIcons.icTaskList,
                   iconColor: AppColors.white,
                 ),
                 _buildDashboardCard(
@@ -51,7 +51,7 @@ class DashboardOverview extends StatelessWidget {
                   iconBgColor: const Color(0xFF12B76A),
                   title: 'Completed Task',
                   count: '12',
-                  svg: AppIcons.icCheckmark,
+                  svg: AppIcons.icCheck,
                   iconColor: AppColors.white,
                 ),
                 _buildDashboardCard(
@@ -100,6 +100,8 @@ class DashboardOverview extends StatelessWidget {
                 child: SvgPicture.asset(
                   svg,
                   colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+                  fit: BoxFit.contain,
+                  width: 18,
                 ),
               ),
               const Gap(10),

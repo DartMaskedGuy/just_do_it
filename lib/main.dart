@@ -15,8 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: AppColors.white),
       darkTheme: ThemeData.dark(),
-      // home: const CreateAccountPage(),
-      initialRoute: AppRoutes.mainPage,
+      initialRoute: AppRoutes.splashScreen,
       routes: AppRoutes.pages,
     );
   }

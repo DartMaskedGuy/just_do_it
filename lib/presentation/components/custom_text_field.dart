@@ -21,9 +21,9 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         fillColor: Colors.transparent,
         labelText: hintText,
-        labelStyle: const TextStyle(color: AppColors.greyText),
+        labelStyle: const TextStyle(color: AppColors.lightGreyText),
         floatingLabelStyle: const TextStyle(
-          color: AppColors.greyText,
+          color: AppColors.lightGreyText,
           fontSize: 16,
         ),
         suffix: suffixIcon,

@@ -2,17 +2,49 @@ import 'package:do_it/presentation/components/custom_back_button.dart';
 import 'package:do_it/presentation/components/custom_elevated_button.dart';
 import 'package:do_it/presentation/components/expanded_text_field.dart';
 import 'package:do_it/presentation/components/transparent_text_field.dart';
+import 'package:do_it/presentation/screens/create_project_page_filled.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
-class CreateProjectPage extends StatelessWidget {
+class CreateProjectPage extends StatefulWidget {
   const CreateProjectPage({super.key});
 
   @override
+  State<CreateProjectPage> createState() => _CreateProjectPageState();
+}
+
+class _CreateProjectPageState extends State<CreateProjectPage> {
+  DateTime? selectedDate;
+
+  // Function to select date
+  Future<void> _selectDate(BuildContext context) async {
+    // Date picker
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Format the selected date
+    final String dateText =
+        selectedDate != null
+            ? DateFormat('d-M-yyyy').format(selectedDate!)
+            : '';
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -52,15 +84,25 @@ class CreateProjectPage extends StatelessWidget {
                             color: AppColors.lightGreyText,
                           ),
                         ),
-                        TransparentTextField(
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 14,
-                              horizontal: 0,
-                            ),
-                            child: SvgPicture.asset(AppIcons.icCalender),
+                        Gap(5),
+                        GestureDetector(
+                          onTap: () => _selectDate(context),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(AppIcons.icCalender, width: 20),
+                              const Gap(8),
+                              Text(
+                                dateText,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.lightGreyText,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        const Divider(),
                       ],
                     ),
                   ),
@@ -76,15 +118,25 @@ class CreateProjectPage extends StatelessWidget {
                             color: AppColors.lightGreyText,
                           ),
                         ),
-                        TransparentTextField(
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 14,
-                              horizontal: 0,
-                            ),
-                            child: SvgPicture.asset(AppIcons.icCalender),
+                        Gap(5),
+                        GestureDetector(
+                          onTap: () => _selectDate(context),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(AppIcons.icCalender, width: 20),
+                              const Gap(8),
+                              Text(
+                                dateText,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.lightGreyText,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        const Divider(),
                       ],
                     ),
                   ),
@@ -118,7 +170,7 @@ class CreateProjectPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Divider(color: Colors.grey.shade600, thickness: 0.5),
+              Divider(color: AppColors.lightGreyText, thickness: 0.5),
 
               const Gap(20),
               SizedBox(
@@ -149,10 +201,17 @@ class CreateProjectPage extends StatelessWidget {
               // Description Text Field
               const ExpandedTextField(),
               const Gap(22),
+              // Create Project Button
               CustomElevatedButton(
                 width: double.infinity,
                 label: 'Create Project',
-                onPressed: () {},
+                onPressed:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CreateProjectPageFilled(),
+                      ),
+                    ),
               ),
             ],
           ),

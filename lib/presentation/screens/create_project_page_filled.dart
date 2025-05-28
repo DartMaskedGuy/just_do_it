@@ -3,48 +3,18 @@ import 'package:do_it/presentation/components/custom_elevated_button.dart';
 import 'package:do_it/presentation/components/expanded_text_field.dart';
 import 'package:do_it/presentation/widgets/tag_arrow.dart';
 import 'package:do_it/presentation/components/transparent_text_field.dart';
-import 'package:do_it/presentation/screens/add_task_page.dart';
+import 'package:do_it/presentation/screens/projects_page.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:intl/intl.dart';
 
-class AddTaskForm extends StatefulWidget {
-  const AddTaskForm({super.key});
-
-  @override
-  State<AddTaskForm> createState() => _AddTaskFormState();
-}
-
-class _AddTaskFormState extends State<AddTaskForm> {
-  DateTime? selectedDate;
-
-  // Function to select date
-  Future<void> _selectDate(BuildContext context) async {
-    // Date picker
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+class CreateProjectPageFilled extends StatelessWidget {
+  const CreateProjectPageFilled({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Format the selected date
-    final String dateText =
-        selectedDate != null
-            ? DateFormat('d-M-yyyy').format(selectedDate!)
-            : '';
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -55,7 +25,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
               const CustomBackButton(),
               const Gap(22),
               Text(
-                'Add task',
+                'Create Project',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 24,
@@ -63,11 +33,29 @@ class _AddTaskFormState extends State<AddTaskForm> {
                 ),
               ),
               const Gap(19),
-              Text(
-                'Task Name',
-                style: TextStyle(fontSize: 12, color: AppColors.lightGreyText),
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: AppColors.white,
+                    child: Image.asset(
+                      AppIcons.liberty,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      filterQuality: FilterQuality.high,
+                    ),
+                  ),
+                  Gap(15),
+                  Expanded(
+                    child: TransparentTextField(
+                      label: 'Project Name',
+                      enabled: false,
+                      text: 'Liberty Pay',
+                    ),
+                  ),
+                ],
               ),
-              TransparentTextField(),
               const Gap(46),
               Row(
                 children: [
@@ -82,25 +70,15 @@ class _AddTaskFormState extends State<AddTaskForm> {
                             color: AppColors.lightGreyText,
                           ),
                         ),
-                        Gap(5),
-                        GestureDetector(
-                          onTap: () => _selectDate(context),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(AppIcons.icCalender, width: 20),
-                              const Gap(8),
-                              Text(
-                                dateText,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.lightGreyText,
-                                ),
-                              ),
-                            ],
+                        TransparentTextField(
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: 0,
+                            ),
+                            child: SvgPicture.asset(AppIcons.icCalender),
                           ),
                         ),
-                        const Divider(),
                       ],
                     ),
                   ),
@@ -116,34 +94,23 @@ class _AddTaskFormState extends State<AddTaskForm> {
                             color: AppColors.lightGreyText,
                           ),
                         ),
-                        Gap(5),
-                        GestureDetector(
-                          onTap: () => _selectDate(context),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(AppIcons.icCalender, width: 20),
-                              const Gap(8),
-                              Text(
-                                dateText,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.lightGreyText,
-                                ),
-                              ),
-                            ],
+                        TransparentTextField(
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: 0,
+                            ),
+                            child: SvgPicture.asset(AppIcons.icCalender),
                           ),
                         ),
-                        const Divider(),
                       ],
                     ),
                   ),
                 ],
               ),
               const Gap(29),
-              // Assign Task
               Text(
-                'Assign Task:',
+                'Assign to:',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -180,6 +147,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
                 ],
               ),
               Divider(color: Colors.grey.shade600, thickness: 0.5),
+
               const Gap(20),
               SizedBox(
                 child: Column(
@@ -219,7 +187,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
               ),
               const Gap(26),
               Text(
-                'Comments:',
+                'Description',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -228,17 +196,21 @@ class _AddTaskFormState extends State<AddTaskForm> {
               ),
               const Gap(7),
               // Description Text Field
-              const ExpandedTextField(),
-              const Spacer(),
-              // Add Task Button
+              const ExpandedTextField(
+                enabled: false,
+                text:
+                    'Lorem ipsum dolor sit amet, conse jose  adipiscing elit. Vestibulum semper  llmauris as lacus, turpis  Lorem ipsum dolor sit amet, conse ',
+              ),
+              const Gap(22),
+              // Create Project Button
               CustomElevatedButton(
                 width: double.infinity,
-                label: 'Add task',
+                label: 'Create Project',
                 onPressed:
                     () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const AddTaskPage(),
+                        builder: (context) => const ProjectsPage(),
                       ),
                     ),
               ),

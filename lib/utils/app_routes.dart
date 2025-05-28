@@ -6,9 +6,11 @@ import 'package:do_it/presentation/screens/home_page.dart';
 import 'package:do_it/presentation/screens/main_page.dart';
 import 'package:do_it/presentation/screens/sign_in_page.dart';
 import 'package:do_it/presentation/screens/onboarding_page.dart';
+import 'package:do_it/presentation/screens/splash_screen.dart';
 
 class AppRoutes {
   static final pages = {
+    splashScreen: (context) => const SplashScreen(),
     onboardingPage: (context) => const OnboardingPage(),
     createAccount: (context) => const CreateAccountPage(),
     signIn: (context) => const SignInPage(),
@@ -20,7 +22,8 @@ class AppRoutes {
   };
 
   // App Routes
-  static const onboardingPage = '/';
+  static const splashScreen = '/';
+  static const onboardingPage = 'onboardingPage';
   static const createAccount = 'createAccount';
   static const signIn = 'signIn';
   static const mainPage = 'mainPage';
