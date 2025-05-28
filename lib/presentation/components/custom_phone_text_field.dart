@@ -1,45 +1,30 @@
+import 'package:do_it/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_text_field/phone_text_field.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class CustomPhoneTextField extends StatelessWidget {
   const CustomPhoneTextField({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return PhoneTextField(
-      locale: const Locale('en'),
-      decoration: const InputDecoration(
-        filled: true,
-        contentPadding: EdgeInsets.zero,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(),
+    return IntlPhoneField(
+      decoration: InputDecoration(
+        labelText: 'Mobile Number',
+        labelStyle: const TextStyle(color: AppColors.greyText),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: const Color.fromARGB(0, 189, 189, 189),
+            width: 1,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(),
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: AppColors.primary),
         ),
-        prefixIcon: Icon(Icons.phone),
-        labelText: "Phone number",
       ),
-      searchFieldInputDecoration: const InputDecoration(
-        filled: true,
-        fillColor: Colors.transparent,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(),
-        ),
-        suffixIcon: Icon(Icons.search),
-        hintText: "Search country",
-      ),
-      initialCountryCode: "AE",
-      onChanged: (phone) {
-        debugPrint(phone.completeNumber);
-      },
+      initialCountryCode: 'NG',
+      onChanged: (phone) {},
     );
   }
 }

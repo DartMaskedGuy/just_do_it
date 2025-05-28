@@ -4,24 +4,35 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final Widget? suffixIcon;
-  const CustomTextField({super.key, required this.hintText, this.suffixIcon});
+  final bool obscureText;
+  const CustomTextField({
+    super.key,
+    required this.hintText,
+    this.suffixIcon,
+    this.obscureText = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obscureText,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         filled: true,
         fillColor: Colors.transparent,
-        hintText: hintText,
-        hintStyle: const TextStyle(color: AppColors.greyText),
+        labelText: hintText,
+        labelStyle: const TextStyle(color: AppColors.greyText),
+        floatingLabelStyle: const TextStyle(
+          color: AppColors.greyText,
+          fontSize: 16,
+        ),
         suffix: suffixIcon,
         border: OutlineInputBorder(
           borderSide: BorderSide(width: 1, color: AppColors.grey),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColors.borderColor),
+          borderSide: BorderSide(width: 1.5, color: AppColors.primaryText),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
       ),

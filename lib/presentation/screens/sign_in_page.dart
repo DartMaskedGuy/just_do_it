@@ -62,13 +62,17 @@ class SignInPage extends StatelessWidget {
               const Gap(36),
               CustomTextField(hintText: 'Email'),
               const Gap(16),
-              CustomTextField(hintText: 'Password'),
+              CustomTextField(
+                obscureText: true,
+                hintText: 'Password',
+                suffixIcon: SvgPicture.asset(AppIcons.icVisible),
+              ),
               const Gap(8),
               Text(
                 'Forgot Password?',
                 style: TextStyle(color: AppColors.secondaryText, fontSize: 12),
               ),
-              const Spacer(),
+              const Gap(100),
               Row(
                 children: [
                   Expanded(
@@ -128,6 +132,7 @@ class SignInPage extends StatelessWidget {
                   ),
                 ],
               ),
+              const Spacer(),
             ],
           ),
         ),

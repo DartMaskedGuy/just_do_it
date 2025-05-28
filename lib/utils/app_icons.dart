@@ -12,10 +12,14 @@ class AppIcons {
 
   // SVG Icons
   static const icCalenderFill = '${_svg}calendar-fill.svg';
+  static const icCalender = '${_svg}calendar.svg';
   static const icCheckmark = '${_svg}check-mark.svg';
   static const icChevronLeft = '${_svg}chevron-left.svg';
   static const icFingerPrint = '${_svg}finger-print.svg';
+  static const icHome = '${_svg}home.svg';
   static const icNotification = '${_svg}notification-bing.svg';
   static const icTaskMenu = '${_svg}task-menu.svg';
+  static const icTaskRemove = '${_svg}task-remove.svg';
+  static const icUser = '${_svg}user.svg';
   static const icVisible = '${_svg}visible.svg';
 }

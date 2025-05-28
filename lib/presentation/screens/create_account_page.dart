@@ -58,14 +58,10 @@ class CreateAccountPage extends StatelessWidget {
               const Gap(24),
               CustomTextField(hintText: 'Email'),
               const Gap(24),
-              CustomTextField(
-                hintText: 'Mobile Number',
-                suffixIcon: Icon(Icons.visibility, color: Colors.black),
-              ),
-              const Gap(24),
               const CustomPhoneTextField(),
-              const Gap(24),
+              const Gap(10),
               CustomTextField(
+                obscureText: true,
                 hintText: 'Password',
                 suffixIcon: SvgPicture.asset(AppIcons.icVisible),
               ),
@@ -79,7 +75,7 @@ class CreateAccountPage extends StatelessWidget {
                 width: double.infinity,
                 label: 'Create account',
                 onPressed:
-                    () => Navigator.pushNamed(context, AppRoutes.createAccount),
+                    () => Navigator.pushNamed(context, AppRoutes.mainPage),
               ),
               const Gap(8),
               Align(

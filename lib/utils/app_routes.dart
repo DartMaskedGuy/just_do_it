@@ -1,4 +1,5 @@
 import 'package:do_it/presentation/screens/create_account_page.dart';
+import 'package:do_it/presentation/screens/create_project_page.dart';
 import 'package:do_it/presentation/screens/home_page.dart';
 import 'package:do_it/presentation/screens/main_page.dart';
 import 'package:do_it/presentation/screens/sign_in_page.dart';
@@ -11,6 +12,7 @@ class AppRoutes {
     signIn: (context) => const SignInPage(),
     mainPage: (context) => const MainPage(),
     home: (context) => const HomePage(),
+    createProject: (context) => const CreateProjectPage(),
   };
 
   // App Routes
@@ -19,4 +21,5 @@ class AppRoutes {
   static const signIn = 'signIn';
   static const mainPage = 'mainPage';
   static const home = 'home';
+  static const createProject = 'createProject';
 }

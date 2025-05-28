@@ -1,4 +1,7 @@
+import 'package:do_it/presentation/screens/home_page.dart';
+import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
+import 'package:do_it/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -21,26 +24,61 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 35),
+        child: SizedBox(
+          width: 70,
+          height: 70,
+          child: FloatingActionButton(
+            elevation: 0,
+            onPressed:
+                () => Navigator.pushNamed(context, AppRoutes.createProject),
+            heroTag: 'createProject',
+            tooltip: 'Create Project',
+            shape: CircleBorder(
+              side: BorderSide(color: AppColors.white, width: 7),
+            ),
+            backgroundColor: AppColors.primary,
+            foregroundColor: AppColors.white,
+            child: const Icon(Icons.add),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: _onItemTapped,
-        backgroundColor: Colors.white,
-        selectedItemColor: Color(0xFF2196F3), // Blue color matching the design
-        unselectedItemColor: Colors.grey[600],
+        backgroundColor: const Color(0x1F4AADFF),
         elevation: 0,
         iconSize: 24,
         selectedFontSize: 12,
         unselectedFontSize: 12,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         items: [
-          BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
           BottomNavigationBarItem(
-            label: 'Home',
-            icon: SvgPicture.asset(AppIcons.icFingerPrint),
+            icon: SvgPicture.asset(AppIcons.icHome),
+            label: 'check',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(AppIcons.icCheckmark),
+            label: 'check',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(AppIcons.icUser),
+            label: 'user',
           ),
         ],
       ),
+      body: pages[_currentIndex],
     );
   }
 }
+
+// List of pages to be displayed in the body of the MainPage
+final List<Widget> pages = const [
+  HomePage(),
+  Center(child: Text('Check Page')),
+  Center(child: Text('User Page')),
+];
