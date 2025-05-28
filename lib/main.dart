@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(scaffoldBackgroundColor: AppColors.white),
       darkTheme: ThemeData.dark(),
       // home: const CreateAccountPage(),
-      initialRoute: AppRoutes.onboardingPage,
+      initialRoute: AppRoutes.mainPage,
       routes: AppRoutes.pages,
     );
   }

@@ -1,15 +1,17 @@
 import 'package:do_it/presentation/components/custom_back_button.dart';
 import 'package:do_it/presentation/components/custom_elevated_button.dart';
 import 'package:do_it/presentation/components/expanded_text_field.dart';
+import 'package:do_it/presentation/components/tag_arrow.dart';
 import 'package:do_it/presentation/components/transparent_text_field.dart';
+import 'package:do_it/presentation/screens/add_task_page.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
-class CreateProjectPage extends StatelessWidget {
-  const CreateProjectPage({super.key});
+class AddTaskForm extends StatelessWidget {
+  const AddTaskForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class CreateProjectPage extends StatelessWidget {
               const CustomBackButton(),
               const Gap(22),
               Text(
-                'Create Project',
+                'Add task',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 24,
@@ -31,13 +33,11 @@ class CreateProjectPage extends StatelessWidget {
                 ),
               ),
               const Gap(19),
-              const Row(
-                children: [
-                  CircleAvatar(radius: 30, backgroundColor: AppColors.grey),
-                  Gap(15),
-                  Expanded(child: TransparentTextField(label: 'Project Name')),
-                ],
+              Text(
+                'Task Name',
+                style: TextStyle(fontSize: 12, color: AppColors.lightGreyText),
               ),
+              TransparentTextField(),
               const Gap(46),
               Row(
                 children: [
@@ -91,8 +91,9 @@ class CreateProjectPage extends StatelessWidget {
                 ],
               ),
               const Gap(29),
+              // Assign Task
               Text(
-                'Assign to:',
+                'Assign Task:',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -103,9 +104,19 @@ class CreateProjectPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Add team members',
-                    style: TextStyle(color: AppColors.lightGreyText),
+                  Stack(
+                    children: [
+                      SizedBox(width: 80),
+                      _teamMemberAvatar(image: AppIcons.avatar1),
+                      Positioned(
+                        left: 20,
+                        child: _teamMemberAvatar(image: AppIcons.avatar2),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: _teamMemberAvatar(image: AppIcons.avatar3),
+                      ),
+                    ],
                   ),
                   InkWell(
                     onTap: () {},
@@ -119,7 +130,6 @@ class CreateProjectPage extends StatelessWidget {
                 ],
               ),
               Divider(color: Colors.grey.shade600, thickness: 0.5),
-
               const Gap(20),
               SizedBox(
                 child: Column(
@@ -132,13 +142,34 @@ class CreateProjectPage extends StatelessWidget {
                         color: AppColors.lightGreyText,
                       ),
                     ),
-                    TransparentTextField(),
+                    const Gap(9),
+                    Row(
+                      children: [
+                        TagArrow(
+                          bgColor: const Color(0xFF9EFFCC),
+                          color: const Color(0xFF009A49),
+                          text: 'Design',
+                        ),
+                        TagArrow(
+                          bgColor: const Color(0xFFFFE5BE),
+                          color: const Color(0xFFF7A325),
+                          text: 'Front end',
+                        ),
+                        TagArrow(
+                          bgColor: const Color(0xFFC0E2FF),
+                          color: const Color(0xFF217AC0),
+                          text: 'Backend',
+                        ),
+                      ],
+                    ),
+                    const Gap(6),
+                    const Divider(),
                   ],
                 ),
               ),
               const Gap(26),
               Text(
-                'Description',
+                'Comments:',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -148,14 +179,42 @@ class CreateProjectPage extends StatelessWidget {
               const Gap(7),
               // Description Text Field
               const ExpandedTextField(),
-              const Gap(22),
+              const Spacer(),
+              // Add Task Button
               CustomElevatedButton(
                 width: double.infinity,
-                label: 'Create Project',
-                onPressed: () {},
+                label: 'Add task',
+                onPressed:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AddTaskPage(),
+                      ),
+                    ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // Team member avatar widget
+  Widget _teamMemberAvatar({required String image}) {
+    return Container(
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: CircleAvatar(
+        radius: 15,
+        backgroundColor: AppColors.grey,
+        child: Image.asset(
+          image,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
         ),
       ),
     );

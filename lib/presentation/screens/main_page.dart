@@ -1,4 +1,5 @@
 import 'package:do_it/presentation/screens/home_page.dart';
+import 'package:do_it/presentation/screens/projects_page.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:do_it/utils/app_routes.dart';
@@ -24,32 +25,33 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 35),
-        child: SizedBox(
-          width: 70,
-          height: 70,
-          child: FloatingActionButton(
-            elevation: 0,
-            onPressed:
-                () => Navigator.pushNamed(context, AppRoutes.createProject),
-            heroTag: 'createProject',
-            tooltip: 'Create Project',
-            shape: CircleBorder(
-              side: BorderSide(color: AppColors.white, width: 7),
-            ),
-            backgroundColor: AppColors.primary,
-            foregroundColor: AppColors.white,
-            child: const Icon(Icons.add),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.only(bottom: 35),
+      //   child: SizedBox(
+      //     width: 70,
+      //     height: 70,
+      //     child: FloatingActionButton(
+      //       elevation: 0,
+      //       onPressed:
+      //           () => Navigator.pushNamed(context, AppRoutes.createProject),
+      //       heroTag: 'createProject',
+      //       tooltip: 'Create Project',
+      //       shape: CircleBorder(
+      //         side: BorderSide(color: AppColors.white, width: 7),
+      //       ),
+      //       backgroundColor: AppColors.primary,
+      //       foregroundColor: AppColors.white,
+      //       splashColor: Colors.transparent,
+      //       child: const Icon(Icons.add),
+      //     ),
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: _onItemTapped,
-        backgroundColor: const Color(0x1F4AADFF),
+        backgroundColor: const Color(0x1472C0FF),
         elevation: 0,
         iconSize: 24,
         selectedFontSize: 12,
@@ -76,9 +78,9 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
-// List of pages to be displayed in the body of the MainPage
+// Main pages of the app
 final List<Widget> pages = const [
   HomePage(),
-  Center(child: Text('Check Page')),
+  ProjectsPage(),
   Center(child: Text('User Page')),
 ];

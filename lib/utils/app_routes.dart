@@ -1,3 +1,5 @@
+import 'package:do_it/presentation/screens/add_task_form.dart';
+import 'package:do_it/presentation/screens/add_task_page.dart';
 import 'package:do_it/presentation/screens/create_account_page.dart';
 import 'package:do_it/presentation/screens/create_project_page.dart';
 import 'package:do_it/presentation/screens/home_page.dart';
@@ -13,6 +15,8 @@ class AppRoutes {
     mainPage: (context) => const MainPage(),
     home: (context) => const HomePage(),
     createProject: (context) => const CreateProjectPage(),
+    addTaskForm: (context) => const AddTaskForm(),
+    addTaskPage: (context) => const AddTaskPage(),
   };
 
   // App Routes
@@ -22,4 +26,6 @@ class AppRoutes {
   static const mainPage = 'mainPage';
   static const home = 'home';
   static const createProject = 'createProject';
+  static const addTaskForm = 'addTaskForm';
+  static const addTaskPage = 'addTaskPage';
 }

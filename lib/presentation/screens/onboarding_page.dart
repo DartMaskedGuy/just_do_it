@@ -1,4 +1,4 @@
-import 'package:do_it/presentation/components/app_logo.dart';
+import 'package:do_it/presentation/widgets/app_logo.dart';
 import 'package:do_it/presentation/components/custom_elevated_button.dart';
 import 'package:do_it/presentation/components/onboarding_icons.dart';
 import 'package:do_it/utils/app_colors.dart';
