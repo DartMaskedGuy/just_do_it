@@ -1,17 +1,23 @@
+import 'package:do_it/models/task_model.dart';
+import 'package:do_it/notifiers/task_notifier.dart';
 import 'package:do_it/presentation/components/custom_back_button.dart';
 import 'package:do_it/presentation/screens/edit_task_page.dart';
 import 'package:do_it/presentation/widgets/circular_progress.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
-class AddTaskPage extends StatelessWidget {
+class AddTaskPage extends ConsumerWidget {
   const AddTaskPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tasks = ref.watch(tasksProvider);
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
@@ -20,6 +26,7 @@ class AddTaskPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Gap(10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -50,15 +57,18 @@ class AddTaskPage extends StatelessWidget {
               ),
               const Gap(16),
               Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 5,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    // Task List
-                    return _buildTaskList();
-                  },
-                ),
+                child:
+                    tasks.isEmpty
+                        ? const Center(child: Text('No tasks yet'))
+                        : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: tasks.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final task = tasks[index];
+                            return _buildTaskList(task);
+                          },
+                        ),
               ),
             ],
           ),
@@ -68,7 +78,7 @@ class AddTaskPage extends StatelessWidget {
   }
 
   // Task List Widget
-  Widget _buildTaskList() {
+  Widget _buildTaskList(TaskModel task) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -82,7 +92,7 @@ class AddTaskPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Liberty Pay Loan App',
+                task.name,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -95,11 +105,16 @@ class AddTaskPage extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF58028C),
+                  color:
+                      task.endDate.difference(DateTime.now()).inDays <= 0
+                          ? Colors.red
+                          : const Color(0xFF58028C),
                   borderRadius: BorderRadius.circular(2),
                 ),
                 child: Text(
-                  '4d',
+                  task.endDate.difference(DateTime.now()).inDays <= 0
+                      ? 'Ended'
+                      : '${task.endDate.difference(DateTime.now()).inDays}d',
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
@@ -162,7 +177,7 @@ class AddTaskPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '27-3-2022',
+                            DateFormat('dd-MM-yyyy').format(task.createdDate),
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w400,
@@ -184,7 +199,7 @@ class AddTaskPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '27-3-2022',
+                            DateFormat('dd-MM-yyyy').format(task.endDate),
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w400,

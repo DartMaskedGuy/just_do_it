@@ -6,12 +6,17 @@ class TransparentTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final String? text;
   final bool? enabled;
+  final TextEditingController controller;
+  final FormFieldValidator? validator;
+
   const TransparentTextField({
     super.key,
     this.prefixIcon,
     this.label,
     this.text,
     this.enabled,
+    required this.controller,
+    this.validator,
   });
 
   @override
@@ -19,6 +24,8 @@ class TransparentTextField extends StatelessWidget {
     return TextFormField(
       enabled: enabled,
       initialValue: text,
+      controller: controller,
+      validator: validator,
       style: const TextStyle(
         fontSize: 14,
         color: AppColors.greyText,

@@ -3,27 +3,44 @@ import 'package:flutter/material.dart';
 class TagArrow extends StatelessWidget {
   final String text;
   final Color bgColor, color;
+  final bool isSelected;
+  final VoidCallback onTap;
+
   const TagArrow({
     super.key,
     required this.text,
     required this.color,
     required this.bgColor,
+    required this.isSelected,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 16),
-      child: CustomPaint(
-        painter: ArrowPainter(bgColor: bgColor),
-        child: Container(
-          padding: const EdgeInsets.only(
-            left: 10,
-            right: 25,
-            top: 5,
-            bottom: 5,
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: CustomPaint(
+          painter: ArrowPainter(
+            bgColor: isSelected ? bgColor : bgColor.withAlpha(50),
           ),
-          child: Text(text, style: TextStyle(color: color, fontSize: 12)),
+          child: Container(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 25,
+              top: 5,
+              bottom: 5,
+            ),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: color,
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+              ),
+            ),
+          ),
         ),
       ),
     );

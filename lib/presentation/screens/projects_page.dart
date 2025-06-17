@@ -1,16 +1,23 @@
+import 'package:do_it/models/project_model.dart';
+import 'package:do_it/notifiers/project_notifier.dart';
 import 'package:do_it/presentation/components/custom_back_button.dart';
 import 'package:do_it/presentation/components/outlined_elevated_button.dart';
 import 'package:do_it/presentation/screens/add_task_form.dart';
+import 'package:do_it/presentation/screens/create_project_page.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
-class ProjectsPage extends StatelessWidget {
+class ProjectsPage extends ConsumerWidget {
   const ProjectsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final projects = ref.watch(projectsProvider);
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
@@ -19,13 +26,23 @@ class ProjectsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+              const Gap(10),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back Button
                   CustomBackButton(),
                   // Create Project Button
-                  OutlinedElevatedButton(label: 'Create Project'),
+                  OutlinedElevatedButton(
+                    label: 'Create Project',
+                    onPressed:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CreateProjectPage(),
+                          ),
+                        ),
+                  ),
                 ],
               ),
               const Gap(12),
@@ -39,14 +56,17 @@ class ProjectsPage extends StatelessWidget {
               ),
               const Gap(16),
               Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    // Project List Items
-                    return buildProjectsList(context);
-                  },
-                ),
+                child:
+                    projects.isEmpty
+                        ? const Center(child: Text('No projects yet'))
+                        : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: projects.length,
+                          itemBuilder: (context, index) {
+                            final project = projects[index];
+                            return buildProjectsList(context, project);
+                          },
+                        ),
               ),
             ],
           ),
@@ -56,7 +76,7 @@ class ProjectsPage extends StatelessWidget {
   }
 
   // Builds a list of project items
-  Widget buildProjectsList(BuildContext context) {
+  Widget buildProjectsList(BuildContext context, ProjectModel project) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(16),
@@ -76,7 +96,7 @@ class ProjectsPage extends StatelessWidget {
                   ),
                   const Gap(10),
                   Text(
-                    'Liberty Pay',
+                    project.name,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -91,11 +111,16 @@ class ProjectsPage extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF009A49),
+                  color:
+                      project.endDate.difference(DateTime.now()).inDays <= 0
+                          ? Colors.red
+                          : const Color(0xFF009A49),
                   borderRadius: BorderRadius.circular(2),
                 ),
                 child: Text(
-                  '4d',
+                  project.endDate.difference(DateTime.now()).inDays <= 0
+                      ? 'Ended'
+                      : '${project.endDate.difference(DateTime.now()).inDays}d',
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
@@ -124,7 +149,7 @@ class ProjectsPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '27-3-2022',
+                        DateFormat('dd-MM-yyyy').format(project.createdDate),
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w400,
@@ -146,7 +171,7 @@ class ProjectsPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '27-3-2022',
+                        DateFormat('dd-MM-yyyy').format(project.endDate),
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w400,

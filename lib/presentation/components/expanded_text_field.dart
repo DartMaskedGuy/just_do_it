@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 class ExpandedTextField extends StatelessWidget {
   final String? text;
   final bool? enabled;
-  const ExpandedTextField({super.key, this.text, this.enabled});
+  final TextEditingController controller;
+
+  const ExpandedTextField({
+    super.key,
+    this.text,
+    this.enabled,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +20,7 @@ class ExpandedTextField extends StatelessWidget {
       child: TextFormField(
         enabled: enabled,
         initialValue: text,
+        controller: controller,
         style: const TextStyle(
           fontSize: 12,
           color: AppColors.greyText,
@@ -23,8 +31,9 @@ class ExpandedTextField extends StatelessWidget {
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 10,
-            vertical: 10,
+            vertical: 8,
           ),
+          isCollapsed: true,
           filled: true,
           fillColor: Colors.transparent,
           border: OutlineInputBorder(

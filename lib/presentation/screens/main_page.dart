@@ -61,6 +61,7 @@ class _MainPageState extends State<MainPage> {
                     backgroundColor: AppColors.primary,
                     foregroundColor: AppColors.white,
                     splashColor: Colors.transparent,
+                    highlightElevation: 0,
                     child: const Icon(Icons.add),
                   ),
                 ),

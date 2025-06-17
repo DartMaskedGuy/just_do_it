@@ -1,4 +1,3 @@
-import 'package:do_it/presentation/components/custom_app_bar.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +13,6 @@ class DashboardOverview extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          // Custom App Bar
-          const CustomAppBar(),
           const Gap(16),
           SizedBox(
             child: GridView(

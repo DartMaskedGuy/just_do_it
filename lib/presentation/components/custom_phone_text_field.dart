@@ -12,16 +12,16 @@ class CustomPhoneTextField extends StatelessWidget {
         labelText: 'Mobile Number',
         labelStyle: const TextStyle(color: AppColors.lightGreyText),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.lightGreyText, width: 1),
+          borderSide: BorderSide(width: 1, color: AppColors.grey),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: const Color(0x40757575), width: 1),
+          borderSide: BorderSide(width: 0.5, color: Colors.grey.shade600),
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.primary),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(width: 1.5, color: AppColors.primaryText),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
       ),
       initialCountryCode: 'NG',
