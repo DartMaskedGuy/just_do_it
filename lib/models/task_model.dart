@@ -8,6 +8,7 @@ class TaskModel {
   final List<String> assignedTo;
   final List<String> tags;
   final String comments;
+  final bool isCompleted;
 
   TaskModel({
     required this.id,
@@ -17,6 +18,7 @@ class TaskModel {
     required this.assignedTo,
     required this.tags,
     required this.comments,
+    this.isCompleted = false,
   });
 
   Map<String, dynamic> toJson() => {

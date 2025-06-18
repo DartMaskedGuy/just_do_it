@@ -25,7 +25,6 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
   final _nameController = TextEditingController();
   final _commentsController = TextEditingController();
   final List<String> _selectedTags = [];
-  // final List<String> _assignedMembers = [];
   DateTime? selectedStartDate;
   DateTime? selectedEndDate;
 
@@ -221,7 +220,6 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
                     ),
                   ),
                   TransparentTextField(
-                    enabled: false,
                     text: 'Liberty Pay',
                     controller: _nameController,
                   ),
@@ -387,24 +385,38 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
                   ),
                   const Gap(7),
                   // Description Text Field
-                  ExpandedTextField(
-                    controller: _commentsController,
-                    enabled: false,
-                    text:
-                        'Lorem ipsum dolor sit amet, conse jose  adipiscing elit. Vestibulum semper  llmauris as lacus, turpis  Lorem ipsum dolor sit amet, conse ',
-                  ),
-                  const Spacer(),
+                  ExpandedTextField(controller: _commentsController),
+                  const Gap(33),
                   // Add Task Button
                   CustomElevatedButton(
                     width: double.infinity,
                     label: 'Save',
-                    onPressed:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AddTaskPage(),
-                          ),
-                        ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Notice'),
+                            content: const Text(
+                              'This feature wasn\'t added as a result of some unforeseen circumstance. \n\nThank you!',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed:
+                                    () => Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => const AddTaskPage(),
+                                      ),
+                                    ),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),

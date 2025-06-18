@@ -1,5 +1,5 @@
+import 'package:do_it/presentation/screens/onboarding_page.dart';
 import 'package:do_it/utils/app_icons.dart';
-import 'package:do_it/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,8 +18,11 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Future.delayed(const Duration(milliseconds: 2000), () {
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, AppRoutes.onboardingPage);
+      Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardingPage()),
+      );
     });
   }
 

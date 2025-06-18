@@ -1,14 +1,20 @@
+import 'package:do_it/notifiers/task_notifier.dart';
 import 'package:do_it/presentation/components/task_items.dart';
+import 'package:do_it/presentation/screens/add_task_page.dart';
 import 'package:do_it/utils/app_colors.dart';
-import 'package:do_it/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
-class TaskInProgress extends StatelessWidget {
+class TaskInProgress extends ConsumerWidget {
   const TaskInProgress({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tasks = ref.watch(tasksProvider);
+    // Get only the first 5 tasks
+    final limitedTasks = tasks.take(5).toList();
+
     return SingleChildScrollView(
       child: SizedBox(
         child: ColoredBox(
@@ -31,9 +37,11 @@ class TaskInProgress extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed:
-                          () => Navigator.pushNamed(
+                          () => Navigator.push(
                             context,
-                            AppRoutes.addTaskPage,
+                            MaterialPageRoute(
+                              builder: (context) => const AddTaskPage(),
+                            ),
                           ),
                       child: Text(
                         'See all',
@@ -47,14 +55,15 @@ class TaskInProgress extends StatelessWidget {
                   ],
                 ),
                 const Gap(12),
+                // Limited Task Items
                 SizedBox(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: 5,
+                    itemCount: limitedTasks.length,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      // Task Items
-                      return const TaskItems();
+                      final task = limitedTasks[index];
+                      return TaskItems(task: task);
                     },
                   ),
                 ),

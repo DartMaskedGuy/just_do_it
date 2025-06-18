@@ -3,6 +3,7 @@ import 'package:do_it/notifiers/project_notifier.dart';
 import 'package:do_it/presentation/components/custom_back_button.dart';
 import 'package:do_it/presentation/components/outlined_elevated_button.dart';
 import 'package:do_it/presentation/screens/add_task_form.dart';
+import 'package:do_it/presentation/screens/add_task_page.dart';
 import 'package:do_it/presentation/screens/create_project_page.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
@@ -77,150 +78,157 @@ class ProjectsPage extends ConsumerWidget {
 
   // Builds a list of project items
   Widget buildProjectsList(BuildContext context, ProjectModel project) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppColors.white,
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    child: Image.asset(AppIcons.liberty, fit: BoxFit.cover),
-                  ),
-                  const Gap(10),
-                  Text(
-                    project.name,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.black,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color:
-                      project.endDate.difference(DateTime.now()).inDays <= 0
-                          ? Colors.red
-                          : const Color(0xFF009A49),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-                child: Text(
-                  project.endDate.difference(DateTime.now()).inDays <= 0
-                      ? 'Ended'
-                      : '${project.endDate.difference(DateTime.now()).inDays}d',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
-            ],
+    return GestureDetector(
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddTaskPage()),
           ),
-          const Gap(11),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Start',
-                        style: TextStyle(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.red,
-                        ),
-                      ),
-                      Text(
-                        DateFormat('dd-MM-yyyy').format(project.createdDate),
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Gap(14),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'End',
-                        style: TextStyle(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.green,
-                        ),
-                      ),
-                      Text(
-                        DateFormat('dd-MM-yyyy').format(project.endDate),
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-
-              // Add Task Button
-              SizedBox(
-                height: 24,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 19,
-                      vertical: 2,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: AppColors.white,
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      child: Image.asset(AppIcons.liberty, fit: BoxFit.cover),
                     ),
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: AppColors.primaryText,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    side: BorderSide(color: AppColors.primary, width: 0.5),
-                  ),
-                  onPressed:
-                      () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AddTaskForm(),
-                        ),
+                    const Gap(10),
+                    Text(
+                      project.name,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.black,
                       ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color:
+                        project.endDate.difference(DateTime.now()).inDays <= 0
+                            ? Colors.red
+                            : const Color(0xFF009A49),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                   child: Text(
-                    'Add Task',
+                    project.endDate.difference(DateTime.now()).inDays <= 0
+                        ? 'Ended'
+                        : '${project.endDate.difference(DateTime.now()).inDays}d',
                     style: TextStyle(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.primaryText,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white,
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+            const Gap(11),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Start',
+                          style: TextStyle(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.red,
+                          ),
+                        ),
+                        Text(
+                          DateFormat('dd-MM-yyyy').format(project.createdDate),
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Gap(14),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'End',
+                          style: TextStyle(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.green,
+                          ),
+                        ),
+                        Text(
+                          DateFormat('dd-MM-yyyy').format(project.endDate),
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+                // Add Task Button
+                SizedBox(
+                  height: 24,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 19,
+                        vertical: 2,
+                      ),
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: AppColors.primaryText,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      side: BorderSide(color: AppColors.primary, width: 0.5),
+                    ),
+                    onPressed:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AddTaskForm(),
+                          ),
+                        ),
+                    child: Text(
+                      'Add Task',
+                      style: TextStyle(
+                        fontSize: 9,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.primaryText,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -16,6 +16,7 @@ class TaskNotifier extends StateNotifier<List<TaskModel>> {
 
   static const String _storageKey = 'tasks';
 
+  /// Load tasks from SharedPreferences
   Future<void> _loadTasks() async {
     final prefs = await SharedPreferences.getInstance();
     final tasksJson = prefs.getString(_storageKey);
@@ -25,6 +26,7 @@ class TaskNotifier extends StateNotifier<List<TaskModel>> {
     }
   }
 
+  /// Create a new task
   Future<bool> addTask(TaskModel task) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -32,6 +34,18 @@ class TaskNotifier extends StateNotifier<List<TaskModel>> {
       final encoded = jsonEncode(newState.map((t) => t.toJson()).toList());
       await prefs.setString(_storageKey, encoded);
       state = newState;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Delete all tasks
+  Future<bool> deleteAllTasks() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_storageKey);
+      state = [];
       return true;
     } catch (e) {
       return false;

@@ -1,4 +1,5 @@
 import 'package:do_it/presentation/screens/home_page.dart';
+import 'package:do_it/presentation/screens/profile_page.dart';
 import 'package:do_it/presentation/screens/projects_page.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
@@ -95,8 +96,4 @@ class _MainPageState extends State<MainPage> {
 }
 
 // Main pages of the app
-final List<Widget> pages = const [
-  HomePage(),
-  ProjectsPage(),
-  Center(child: Text('User Page')),
-];
+final List<Widget> pages = const [HomePage(), ProjectsPage(), ProfilePage()];

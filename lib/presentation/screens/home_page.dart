@@ -1,16 +1,23 @@
+import 'package:do_it/notifiers/auth_notifier.dart';
 import 'package:do_it/presentation/components/dashboard_overview.dart';
 import 'package:do_it/presentation/components/task_in_progress.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get the current user's name from SharedPreferences
+    final userName = ref.watch(
+      authStateProvider.select((state) => state.valueOrNull?.name ?? 'User'),
+    );
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -27,7 +34,7 @@ class HomePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Hi Dexter 👋',
+                  'Hi $userName 👋',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                 ),
                 Text(

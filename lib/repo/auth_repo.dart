@@ -10,6 +10,21 @@ class AuthRepository {
 
   AuthRepository(this._prefs);
 
+  bool isLoggedIn() {
+    return _prefs.getBool(_isLoggedInKey) ?? false;
+  }
+
+  Future<UserModel?> getCurrentUser() async {
+    // Implement the logic to get the current user
+    // This could involve getting the user from SharedPreferences or an API
+    final prefs = await SharedPreferences.getInstance();
+    final userJson = prefs.getString('user_key');
+    if (userJson != null) {
+      return UserModel.fromJson(jsonDecode(userJson));
+    }
+    return null;
+  }
+
   Future<bool> register(UserModel user) async {
     try {
       final userJson = jsonEncode(user.toJson());
@@ -39,9 +54,5 @@ class AuthRepository {
 
   Future<void> logout() async {
     await _prefs.setBool(_isLoggedInKey, false);
-  }
-
-  bool isLoggedIn() {
-    return _prefs.getBool(_isLoggedInKey) ?? false;
   }
 }

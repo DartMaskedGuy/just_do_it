@@ -79,6 +79,19 @@ class AddTaskPage extends ConsumerWidget {
 
   // Task List Widget
   Widget _buildTaskList(TaskModel task) {
+    // Calculate progress
+    final now = DateTime.now();
+    final totalDuration = task.endDate.difference(task.createdDate).inDays;
+    final remainingDays = task.endDate.difference(now).inDays;
+
+    // Calculated progress (reverse it so it counts down)
+    double progress = 1.0;
+    if (totalDuration > 0) {
+      progress = remainingDays / totalDuration;
+      // Ensure progress stays between 0 and 1
+      progress = progress.clamp(0.0, 1.0);
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -212,7 +225,7 @@ class AddTaskPage extends ConsumerWidget {
                   ),
                 ],
               ),
-              const CircularProgress(),
+              CircularProgress(progress: progress),
             ],
           ),
         ],

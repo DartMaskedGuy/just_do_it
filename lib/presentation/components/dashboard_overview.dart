@@ -1,14 +1,37 @@
+import 'package:do_it/notifiers/project_notifier.dart';
+import 'package:do_it/notifiers/task_notifier.dart';
 import 'package:do_it/utils/app_colors.dart';
 import 'package:do_it/utils/app_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
-class DashboardOverview extends StatelessWidget {
+class DashboardOverview extends ConsumerWidget {
   const DashboardOverview({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get projects and tasks from providers
+    final projects = ref.watch(projectsProvider);
+    final tasks = ref.watch(tasksProvider);
+
+    // Calculate different task counts
+    final completedTasks =
+        tasks
+            .where(
+              (task) => task.endDate.difference(DateTime.now()).inDays <= 0,
+            )
+            .length;
+
+    final overdueTasks =
+        tasks
+            .where(
+              (task) =>
+                  task.endDate.isBefore(DateTime.now()) && !task.isCompleted,
+            )
+            .length;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -31,7 +54,7 @@ class DashboardOverview extends StatelessWidget {
                   bgColor: const Color(0xFFFAF3E0),
                   iconBgColor: const Color(0xFFF7A325),
                   title: 'Projects',
-                  count: '14',
+                  count: projects.length.toString(),
                   svg: AppIcons.icCheckmark,
                   iconColor: AppColors.white,
                 ),
@@ -39,7 +62,7 @@ class DashboardOverview extends StatelessWidget {
                   bgColor: const Color(0xFFF4F9FF),
                   iconBgColor: const Color(0xFF217AC0),
                   title: 'Tasks',
-                  count: '14',
+                  count: tasks.length.toString(),
                   svg: AppIcons.icTaskList,
                   iconColor: AppColors.white,
                 ),
@@ -47,7 +70,7 @@ class DashboardOverview extends StatelessWidget {
                   bgColor: const Color(0xFFE9FFF0),
                   iconBgColor: const Color(0xFF12B76A),
                   title: 'Completed Task',
-                  count: '12',
+                  count: completedTasks.toString(),
                   svg: AppIcons.icCheck,
                   iconColor: AppColors.white,
                 ),
@@ -55,7 +78,7 @@ class DashboardOverview extends StatelessWidget {
                   bgColor: const Color(0xFFF4F1F6),
                   iconBgColor: const Color(0xFFD1D1D1),
                   title: 'Overdue Task',
-                  count: '2',
+                  count: overdueTasks.toString(),
                   svg: AppIcons.icTaskRemove,
                   iconColor: AppColors.black,
                 ),
