@@ -32,13 +32,32 @@ class AddTaskPage extends ConsumerWidget {
                 children: [
                   const CustomBackButton(),
                   IconButton(
-                    onPressed:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const EditTaskPage(),
-                          ),
-                        ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Notice'),
+                            content: const Text(
+                              'Click on the task item itself, it will take you to the edit page. \n\nThank you!',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed:
+                                    () => Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => const AddTaskPage(),
+                                      ),
+                                    ),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                     style: IconButton.styleFrom(
                       backgroundColor: AppColors.white,
                     ),
@@ -66,7 +85,7 @@ class AddTaskPage extends ConsumerWidget {
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             final task = tasks[index];
-                            return _buildTaskList(task);
+                            return _buildTaskList(context, task);
                           },
                         ),
               ),
@@ -78,7 +97,7 @@ class AddTaskPage extends ConsumerWidget {
   }
 
   // Task List Widget
-  Widget _buildTaskList(TaskModel task) {
+  Widget _buildTaskList(BuildContext context, TaskModel task) {
     // Calculate progress
     final now = DateTime.now();
     final totalDuration = task.endDate.difference(task.createdDate).inDays;
@@ -92,143 +111,150 @@ class AddTaskPage extends ConsumerWidget {
       progress = progress.clamp(0.0, 1.0);
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppColors.white,
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                task.name,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.black,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color:
-                      task.endDate.difference(DateTime.now()).inDays <= 0
-                          ? Colors.red
-                          : const Color(0xFF58028C),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-                child: Text(
-                  task.endDate.difference(DateTime.now()).inDays <= 0
-                      ? 'Ended'
-                      : '${task.endDate.difference(DateTime.now()).inDays}d',
+    return GestureDetector(
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EditTaskPage(task: task)),
+          ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: AppColors.white,
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  task.name,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.white,
+                    color: AppColors.black,
                   ),
                 ),
-              ),
-            ],
-          ),
-          const Gap(6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Team members',
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color:
+                        task.endDate.difference(DateTime.now()).inDays <= 0
+                            ? Colors.red
+                            : const Color(0xFF58028C),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  child: Text(
+                    task.endDate.difference(DateTime.now()).inDays <= 0
+                        ? 'Ended'
+                        : '${task.endDate.difference(DateTime.now()).inDays}d',
                     style: TextStyle(
                       fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.greyText,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white,
                     ),
                   ),
-                  const Gap(6),
-                  Row(
-                    children: [
-                      _teamMemberAvatar(image: AppIcons.avatar1),
-                      const Gap(6),
-                      _teamMemberAvatar(image: AppIcons.avatar2),
-                      const Gap(6),
-                      _teamMemberAvatar(image: AppIcons.avatar3),
-                    ],
-                  ),
-                  const Gap(12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: const Color(0x3EF44336),
-                        child: SvgPicture.asset(
-                          AppIcons.icCalender,
-                          colorFilter: ColorFilter.mode(
-                            Colors.red,
-                            BlendMode.srcIn,
+                ),
+              ],
+            ),
+            const Gap(6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Team members',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.greyText,
+                      ),
+                    ),
+                    const Gap(6),
+                    Row(
+                      children: [
+                        _teamMemberAvatar(image: AppIcons.avatar1),
+                        const Gap(6),
+                        _teamMemberAvatar(image: AppIcons.avatar2),
+                        const Gap(6),
+                        _teamMemberAvatar(image: AppIcons.avatar3),
+                      ],
+                    ),
+                    const Gap(12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CircleAvatar(
+                          radius: 15,
+                          backgroundColor: const Color(0x3EF44336),
+                          child: SvgPicture.asset(
+                            AppIcons.icCalender,
+                            colorFilter: ColorFilter.mode(
+                              Colors.red,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
-                      ),
-                      const Gap(8),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Start',
-                            style: TextStyle(
-                              fontSize: 8,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.red,
+                        const Gap(8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Start',
+                              style: TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.red,
+                              ),
                             ),
-                          ),
-                          Text(
-                            DateFormat('dd-MM-yyyy').format(task.createdDate),
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.black,
+                            Text(
+                              DateFormat('dd-MM-yyyy').format(task.createdDate),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.black,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const Gap(14),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'End',
-                            style: TextStyle(
-                              fontSize: 8,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.green,
+                          ],
+                        ),
+                        const Gap(14),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'End',
+                              style: TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.green,
+                              ),
                             ),
-                          ),
-                          Text(
-                            DateFormat('dd-MM-yyyy').format(task.endDate),
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.black,
+                            Text(
+                              DateFormat('dd-MM-yyyy').format(task.endDate),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.black,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              CircularProgress(progress: progress),
-            ],
-          ),
-        ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                CircularProgress(progress: progress),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

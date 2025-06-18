@@ -40,6 +40,27 @@ class TaskNotifier extends StateNotifier<List<TaskModel>> {
     }
   }
 
+  /// Edit an existing task
+  Future<bool> editTask(String taskId, TaskModel updatedTask) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final taskIndex = state.indexWhere((task) => task.id == taskId);
+
+      if (taskIndex != -1) {
+        final newState = [...state];
+        newState[taskIndex] = updatedTask;
+
+        final encoded = jsonEncode(newState.map((t) => t.toJson()).toList());
+        await prefs.setString(_storageKey, encoded);
+        state = newState;
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   /// Delete all tasks
   Future<bool> deleteAllTasks() async {
     try {

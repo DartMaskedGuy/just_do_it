@@ -1,4 +1,5 @@
 import 'package:do_it/models/task_model.dart';
+import 'package:do_it/notifiers/task_notifier.dart';
 import 'package:do_it/presentation/components/custom_back_button.dart';
 import 'package:do_it/presentation/components/custom_elevated_button.dart';
 import 'package:do_it/presentation/components/expanded_text_field.dart';
@@ -14,7 +15,9 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 
 class EditTaskPage extends ConsumerStatefulWidget {
-  const EditTaskPage({super.key});
+  final TaskModel task;
+
+  const EditTaskPage({super.key, required this.task});
 
   @override
   ConsumerState<EditTaskPage> createState() => _EditTaskPageState();
@@ -27,6 +30,9 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
   final List<String> _selectedTags = [];
   DateTime? selectedStartDate;
   DateTime? selectedEndDate;
+
+  late String taskId;
+  late double currentProgress;
 
   // Function to select date
   // Start Date
@@ -109,6 +115,58 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
     '90%',
     '100%',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize controllers with task data
+    taskId = widget.task.id;
+    _nameController.text = widget.task.name;
+    _commentsController.text = widget.task.comments;
+    selectedStartDate = widget.task.createdDate;
+    selectedEndDate = widget.task.endDate;
+    _selectedTags.addAll(widget.task.tags);
+    currentProgress = widget.task.progress ?? 0.0;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _commentsController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveTask() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final updatedTask = TaskModel(
+        id: taskId,
+        name: _nameController.text,
+        createdDate: selectedStartDate!,
+        endDate: selectedEndDate!,
+        assignedTo: widget.task.assignedTo,
+        tags: _selectedTags,
+        comments: _commentsController.text,
+        progress: currentProgress,
+      );
+
+      final success = await ref
+          .read(tasksProvider.notifier)
+          .editTask(taskId, updatedTask);
+
+      if (mounted) {
+        if (success) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const AddTaskPage()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to update task')),
+          );
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +256,13 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
                             ),
                           ];
                         },
-                        onSelected: (String value) {},
+                        onSelected: (String value) {
+                          setState(() {
+                            currentProgress = double.parse(
+                              value.replaceAll('%', ''),
+                            );
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -391,32 +455,33 @@ class _EditTaskPageState extends ConsumerState<EditTaskPage> {
                   CustomElevatedButton(
                     width: double.infinity,
                     label: 'Save',
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Notice'),
-                            content: const Text(
-                              'This feature wasn\'t added as a result of some unforeseen circumstance. \n\nThank you!',
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed:
-                                    () => Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (context) => const AddTaskPage(),
-                                      ),
-                                    ),
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
+                    onPressed: _saveTask,
+                    // onPressed: () {
+                    //   showDialog(
+                    //     context: context,
+                    //     builder: (BuildContext context) {
+                    //       return AlertDialog(
+                    //         title: const Text('Notice'),
+                    //         content: const Text(
+                    //           'This feature wasn\'t added as a result of some unforeseen circumstance. \n\nThank you!',
+                    //         ),
+                    //         actions: [
+                    //           TextButton(
+                    //             onPressed:
+                    //                 () => Navigator.pushReplacement(
+                    //                   context,
+                    //                   MaterialPageRoute(
+                    //                     builder:
+                    //                         (context) => const AddTaskPage(),
+                    //                   ),
+                    //                 ),
+                    //             child: const Text('OK'),
+                    //           ),
+                    //         ],
+                    //       );
+                    //     },
+                    //   );
+                    // },
                   ),
                 ],
               ),
